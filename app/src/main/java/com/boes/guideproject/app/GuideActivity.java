@@ -1,19 +1,21 @@
 package com.boes.guideproject.app;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
 
 public class GuideActivity extends ActionBarActivity implements
-        DataItemListener<ParseObject> {
+        LoaderManager.LoaderCallbacks<ParseObject> {
 
-    DataManager data;
     TextView guideTitle;
     ProgressBar networkProgress;
 
@@ -26,14 +28,7 @@ public class GuideActivity extends ActionBarActivity implements
         networkProgress = (ProgressBar) findViewById(R.id.network_progress);
 
         Bundle args = getIntent().getExtras();
-        String id = args != null ? args.getString("id") : "";
-        data = new ParseObjectManager(
-                savedInstanceState,                 // Bundle savedInstanceState
-                getSupportLoaderManager(),          // LoaderManager
-                new ParseObjectLoader(this, id),    // Loader
-                this                                // DataItemListener<ParseObject>
-        );
-        data.load();
+        getSupportLoaderManager().initLoader(0, args, this);
     }
 
     @Override
@@ -56,9 +51,26 @@ public class GuideActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void process(ParseObject item) {
+    public Loader<ParseObject> onCreateLoader(int id, Bundle args) {
+        return new ParseObjectLoader(this, "Place", args.getString("id"));
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ParseObject> loader, ParseObject data) {
         networkProgress.setVisibility(View.GONE);
-        guideTitle.setText(item.getString("title"));
+        if (isValidResponse(data)) guideTitle.setText(data.getString("title"));
+        else Toast.makeText(this, data.getString("message"), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ParseObject> loader) {
+        networkProgress.setVisibility(View.VISIBLE);
+        guideTitle.setText(null);
+    }
+
+    private boolean isValidResponse(ParseObject data) {
+        if ("Exception".equals(data.getClassName())) return false;
+        else return true;
     }
 
 }

@@ -10,21 +10,25 @@ import com.parse.ParseQuery;
 
 public class ParseObjectLoader extends AsyncTaskLoader<ParseObject> {
 
+    String type;
     String id;
 
-    public ParseObjectLoader(Context context, String id) {
+    public ParseObjectLoader(Context context, String type, String id) {
         super(context);
+        this.type = type;
         this.id = id;
     }
 
     @Override
     public ParseObject loadInBackground() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Place");
-        ParseObject result = failed();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(type);
 
+        ParseObject result;
         try {
             result = query.get(id);
         } catch (ParseException e) {
+            result = new ParseObject("Exception");
+            result.put("message", e.getMessage());
             Log.e("ParseObjectLoader", e.getMessage(), e);
         }
 
@@ -34,12 +38,6 @@ public class ParseObjectLoader extends AsyncTaskLoader<ParseObject> {
     @Override
     public void deliverResult(ParseObject data) {
         super.deliverResult(data);
-    }
-
-    private ParseObject failed() {
-        ParseObject failure = new ParseObject("Place");
-        failure.put("title", "Error");
-        return failure;
     }
 
     @Override
