@@ -1,6 +1,8 @@
 package com.boes.guideproject.app;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
@@ -10,29 +12,28 @@ import com.parse.ParseQuery;
 
 public class ParseObjectLoader extends AsyncTaskLoader<ParseObject> {
 
+    Context context;
     String type;
     String id;
 
     public ParseObjectLoader(Context context, String type, String id) {
         super(context);
+        this.context = context;
         this.type = type;
         this.id = id;
     }
 
     @Override
     public ParseObject loadInBackground() {
+        if (!connected()) return createParseObjectException("No network connection");
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery(type);
-
-        ParseObject result;
         try {
-            result = query.get(id);
+            return query.get(id);
         } catch (ParseException e) {
-            result = new ParseObject("Exception");
-            result.put("message", e.getMessage());
             Log.e("ParseObjectLoader", e.getMessage(), e);
+            return createParseObjectException(e.getMessage());
         }
-
-        return result;
     }
 
     @Override
@@ -44,6 +45,19 @@ public class ParseObjectLoader extends AsyncTaskLoader<ParseObject> {
     protected void onStartLoading() {
         super.onStartLoading();
         forceLoad();
+    }
+
+    private boolean connected() {
+        ConnectivityManager connection = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo network = connection.getActiveNetworkInfo();
+        if (network == null || !network.isConnected()) return false;
+        else return true;
+    }
+
+    private ParseObject createParseObjectException(String message) {
+        ParseObject e = new ParseObject("Exception");
+        e.put("message", message);
+        return e;
     }
 
 }
