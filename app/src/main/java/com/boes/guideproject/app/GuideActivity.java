@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.ParseObject;
 
@@ -20,6 +19,7 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
 
     TextView guideTitle;
     ProgressBar networkProgress;
+    TextView networkErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,7 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
         setContentView(R.layout.activity_guide);
         guideTitle = (TextView) findViewById(R.id.guide_title);
         networkProgress = (ProgressBar) findViewById(R.id.network_progress);
+        networkErrorMessage = (TextView) findViewById(R.id.network_error);
 
         Bundle args = getIntent().getExtras();
         String id = args.getString("id");
@@ -65,7 +66,8 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
     @Override
     public void process(Exception e) {
         networkProgress.setVisibility(View.GONE);
-        Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        networkErrorMessage.setText(e.getMessage());
+        networkErrorMessage.setVisibility(View.VISIBLE);
     }
 
 }
