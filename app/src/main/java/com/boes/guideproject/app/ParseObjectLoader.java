@@ -12,9 +12,9 @@ import com.parse.ParseQuery;
 
 public class ParseObjectLoader extends AsyncTaskLoader<ParseObject> {
 
-    Context context;
-    String type;
-    String id;
+    final Context context;
+    final String type;
+    final String id;
 
     public ParseObjectLoader(Context context, String type, String id) {
         super(context);

@@ -9,8 +9,8 @@ import com.parse.ParseObject;
 
 public class ParseObjectToPlaceTranslator implements LoaderManager.LoaderCallbacks<ParseObject> {
 
-    AsyncTaskLoader<ParseObject> loader;
-    PlaceListener listener;
+    final AsyncTaskLoader<ParseObject> loader;
+    final PlaceListener listener;
 
     public ParseObjectToPlaceTranslator(AsyncTaskLoader<ParseObject> loader, PlaceListener listener) {
         this.loader = loader;
