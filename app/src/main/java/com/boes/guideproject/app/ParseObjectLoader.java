@@ -12,13 +12,11 @@ import com.parse.ParseQuery;
 
 public class ParseObjectLoader extends AsyncTaskLoader<ParseObject> {
 
-    final Context context;
     final String type;
     final String id;
 
     public ParseObjectLoader(Context context, String type, String id) {
         super(context);
-        this.context = context;
         this.type = type;
         this.id = id;
     }
@@ -48,7 +46,7 @@ public class ParseObjectLoader extends AsyncTaskLoader<ParseObject> {
     }
 
     private boolean connected() {
-        ConnectivityManager connection = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connection = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo network = connection.getActiveNetworkInfo();
         if (network == null || !network.isConnected()) return false;
         else return true;
