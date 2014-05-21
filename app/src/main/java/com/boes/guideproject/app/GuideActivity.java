@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("Lifecycle", "onCreate");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_guide);
@@ -59,15 +61,59 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
 
     @Override
     public void process(String title) {
+        Log.d("Listener", "Setting title view");
         networkProgress.setVisibility(View.GONE);
         guideTitle.setText(title);
     }
 
     @Override
     public void process(Exception e) {
+        Log.d("Listener", "Setting error message");
         networkProgress.setVisibility(View.GONE);
         networkErrorMessage.setText(e.getMessage());
         networkErrorMessage.setVisibility(View.VISIBLE);
+    }
+
+    // Lifecycle (in order)
+
+    // onCreate, see above
+
+    @Override
+    protected void onStart() {
+        Log.d("Lifecycle", "onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d("Lifecycle", "onResume");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d("Lifecycle", "onPause");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d("Lifecycle", "onStop");
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.d("Lifecycle", "onRestart");
+        super.onRestart();
+    }
+
+    // Or, instead
+
+    @Override
+    protected void onDestroy() {
+        Log.d("Lifecycle", "onDestroy");
+        super.onDestroy();
     }
 
 }

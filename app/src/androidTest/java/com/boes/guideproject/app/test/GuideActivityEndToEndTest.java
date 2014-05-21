@@ -1,5 +1,7 @@
 package com.boes.guideproject.app.test;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -7,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 import com.boes.guideproject.app.GuideActivity;
 import com.boes.guideproject.app.R;
@@ -74,6 +77,65 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
     }
 
     public void testReceivesGuideFromNetworkOnStart() {
+        startActivity();
+        checkForCorrectViews();
+    }
+
+    public void testDisplaysErrorOnStartIfNoNetworkConnection() throws InterruptedException {
+        turnNetworkOff();
+        startActivity();
+        checkForErrorViews();
+    }
+
+    public void testMaintainsStateOnRestartOrDeviceRotationEvenWithLostConnection() throws InterruptedException {
+        // Load guide from network
+        testReceivesGuideFromNetworkOnStart();
+
+        // Lost connection!
+        turnNetworkOff();
+
+        // User switches to another app, and then returns; restarts activity
+        restartActivity();
+
+        // Check views remain valid
+        checkForCorrectViews();
+
+        // Rotate device with still no network connection; recreates activity
+        rotateDevice();
+
+        // Check views remain valid
+        checkForCorrectViews();
+    }
+
+    private void checkForCorrectViews() {
+        // Assert error message is NOT displayed
+        Espresso.onView(ViewMatchers.withId(R.id.network_error))
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
+
+        // Assert progress bar is NOT displayed
+        Espresso.onView(ViewMatchers.withId(R.id.network_progress))
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
+
+        // Assert correct guide title
+        Espresso.onView(ViewMatchers.withId(R.id.guide_title))
+                .check(ViewAssertions.matches(ViewMatchers.withText(title)));
+    }
+
+    private void checkForErrorViews() {
+        // Assert error message is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.network_error))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Assert progress bar is NOT displayed
+        Espresso.onView(ViewMatchers.withId(R.id.network_progress))
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
+
+        // Check that guide title is NOT set
+        Espresso.onView(ViewMatchers.withId(R.id.guide_title))
+                .check(ViewAssertions.matches(ViewMatchers.withText("")));
+    }
+
+    private void startActivity() {
         // Build intent
         Intent i = new Intent();
         i.putExtra("id", id);
@@ -81,40 +143,56 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
         // Start activity, passing intent with guide id
         setActivityIntent(i);
         getActivity();
-
-        // Received guide
-        Espresso.onView(ViewMatchers.withId(R.id.network_progress))
-                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
-
-        Espresso.onView(ViewMatchers.withId(R.id.guide_title))
-                .check(ViewAssertions.matches(ViewMatchers.withText(title)));
-
-        // Assert error message is NOT displayed
-        Espresso.onView(ViewMatchers.withId(R.id.network_error))
-                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
     }
 
-    public void testMaintainsStateOnDeviceRotation() {
-        // Load guide from network
-        testReceivesGuideFromNetworkOnStart();
+    private void restartActivity() {
+        final Activity activity = getActivity();
+        final Instrumentation instrumentation = getInstrumentation();
 
-        // Assert NOT in landscape layout
-        Espresso.onView(ViewMatchers.withId(R.id.landscape_mode))
-                .check(ViewAssertions.doesNotExist());
+        // Restart activity: onPause -> onStop -> onRestart -> onStart -> onResume
+        instrumentation.callActivityOnPause(activity);
+        instrumentation.callActivityOnStop(activity);
+        instrumentation.callActivityOnRestart(activity);
+        instrumentation.runOnMainSync(new Runnable() {
 
-        // Rotate device
-        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            @Override
+            public void run() {
+                instrumentation.callActivityOnStart(activity);
+                instrumentation.callActivityOnResume(activity);
+            }
 
-        // Check for landscape layout
-        Espresso.onView(ViewMatchers.withId(R.id.landscape_mode))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        // Check for correct guide title
-        Espresso.onView(ViewMatchers.withId(R.id.guide_title))
-                .check(ViewAssertions.matches(ViewMatchers.withText(title)));
+        });
     }
 
-    public void testDisplaysErrorOnNoNetworkConnection() throws InterruptedException {
+    private void rotateDevice() {
+        int currentOrientation = getActivity().getRequestedOrientation();
+
+        if (currentOrientation != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            // Assert NOT in landscape layout
+            Espresso.onView(ViewMatchers.withId(R.id.landscape_mode))
+                    .check(ViewAssertions.doesNotExist());
+
+            // Rotate to landscape
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+            // Check for landscape layout
+            Espresso.onView(ViewMatchers.withId(R.id.landscape_mode))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        } else {
+            // Check for landscape layout
+            Espresso.onView(ViewMatchers.withId(R.id.landscape_mode))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+            // Rotate to portrait
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+            // Assert NOT in landscape layout
+            Espresso.onView(ViewMatchers.withId(R.id.landscape_mode))
+                    .check(ViewAssertions.doesNotExist());
+        }
+    }
+
+    private void turnNetworkOff() throws InterruptedException {
         // Turn off WIFI.  REQUIRES permissions in manifest for testing purposes.
         Context context = getInstrumentation().getTargetContext();
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -128,21 +206,7 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
         assertTrue("Please turn mobile data OFF manually.",
                 mobile == null || mobile.getState() == NetworkInfo.State.DISCONNECTED);
 
-        // Build intent
-        Intent i = new Intent();
-        i.putExtra("id", id);
-
-        // Start activity, passing intent with guide id
-        setActivityIntent(i);
-        getActivity();
-
-        // Check for error message
-        Espresso.onView(ViewMatchers.withId(R.id.network_error))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        // Check that guide title is NOT set
-        Espresso.onView(ViewMatchers.withId(R.id.guide_title))
-                .check(ViewAssertions.matches(ViewMatchers.withText("")));
+        Log.d("Network", "Network turned off");
     }
 
     private void turnWiFiOnIfNetworkOff() throws InterruptedException {
@@ -164,6 +228,12 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
             } while (network == null || !network.isConnected());
             latch.await(1000, TimeUnit.MILLISECONDS);
         }
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        turnWiFiOnIfNetworkOff();
+        super.tearDown();
     }
 
 }
