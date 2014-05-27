@@ -1,6 +1,7 @@
 package com.boes.guideproject.app;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v7.app.ActionBarActivity;
@@ -21,6 +22,7 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
     TextView guideTitle;
     ProgressBar networkProgress;
     TextView networkErrorMessage;
+    GuideMap guideMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
         guideTitle = (TextView) findViewById(R.id.guide_title);
         networkProgress = (ProgressBar) findViewById(R.id.network_progress);
         networkErrorMessage = (TextView) findViewById(R.id.network_error);
+
+        FragmentManager fm = getSupportFragmentManager();
+        guideMap = (GoogleGuideMap) fm.findFragmentById(R.id.map_fragment);
 
         Bundle args = getIntent().getExtras();
         String id = args.getString("id");
@@ -60,10 +65,12 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
     }
 
     @Override
-    public void process(String title) {
-        Log.d("Listener", "Setting title view");
+    public void process(String title, double latitude, double longitude) {
+        Log.d("Listener", "Setting title view and marker on map");
         networkProgress.setVisibility(View.GONE);
         guideTitle.setText(title);
+        guideMap.addMarker(title, latitude, longitude);
+        guideMap.setCameraTo(latitude, longitude, 2);
     }
 
     @Override

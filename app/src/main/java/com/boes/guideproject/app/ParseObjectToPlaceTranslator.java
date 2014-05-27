@@ -6,6 +6,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
 public class ParseObjectToPlaceTranslator implements LoaderManager.LoaderCallbacks<ParseObject> {
@@ -27,8 +28,15 @@ public class ParseObjectToPlaceTranslator implements LoaderManager.LoaderCallbac
     @Override
     public void onLoadFinished(Loader<ParseObject> loader, ParseObject data) {
         Log.d("Loader", "onLoadFinished");
-        if (isValidResponse(data)) listener.process(data.getString("title"));
-        else listener.process(new Exception(data.getString("message")));
+        if (isValidResponse(data)) {
+            String title = data.getString("title");
+            ParseGeoPoint geo = data.getParseGeoPoint("geo");
+            double latitude = geo.getLatitude();
+            double longitude = geo.getLongitude();
+            listener.process(title, latitude, longitude);
+        } else {
+            listener.process(new Exception(data.getString("message")));
+        }
     }
 
     @Override

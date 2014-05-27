@@ -17,6 +17,7 @@ import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 import com.parse.ParseACL;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -32,6 +33,8 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
 
     String id;
     String title;
+    double latitude;
+    double longitude;
 
     public GuideActivityEndToEndTest() {
         super(GuideActivity.class);
@@ -56,6 +59,8 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
         // Reset test state
         id = null;
         title = "Guide " + new Random().nextInt(10);
+        latitude = -33.867;
+        longitude = 151.206;
 
         // Create new test data
         ParseObject g1 = new ParseObject("Place");
@@ -63,6 +68,7 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
         g1.put("isGuide", true);
         g1.put("isPublished", true);
         g1.put("title", title);
+        g1.put("geo", new ParseGeoPoint(latitude, longitude));
 
         // Set permissions for published guide: public read; private write
         ParseACL acl = g1.getACL();
@@ -105,6 +111,16 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
 
         // Check views remain valid
         checkForCorrectViews();
+    }
+
+    public void testShowsGuideMapWithMarker() {
+        // Mock GuideMap
+
+        // Load guide from network
+        testReceivesGuideFromNetworkOnStart();
+
+        // Test expectations of calls on GuideMap
+
     }
 
     private void checkForCorrectViews() {

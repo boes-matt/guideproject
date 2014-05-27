@@ -18,6 +18,16 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.boes.guideproject.app.GoogleGuideMap"
+        android:id="@+id/map_fragment"
+        android:layout_below="@+id/guide_title"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/network_error"/>
+
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
