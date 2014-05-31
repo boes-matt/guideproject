@@ -113,16 +113,6 @@ public class GuideActivityEndToEndTest extends ActivityInstrumentationTestCase2<
         checkForCorrectViews();
     }
 
-    public void testShowsGuideMapWithMarker() {
-        // Mock GuideMap
-
-        // Load guide from network
-        testReceivesGuideFromNetworkOnStart();
-
-        // Test expectations of calls on GuideMap
-
-    }
-
     private void checkForCorrectViews() {
         // Assert error message is NOT displayed
         Espresso.onView(ViewMatchers.withId(R.id.network_error))

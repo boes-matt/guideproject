@@ -2,6 +2,7 @@ package com.boes.guideproject.app;
 
 import android.os.Bundle;
 
+import com.boes.guideproject.core.GuideMap;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -28,8 +29,8 @@ public class GoogleGuideMap extends SupportMapFragment implements GuideMap {
     }
 
     @Override
-    public void setCameraTo(double latitude, double longitude, int zoom) {
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoom));
+    public void centerAt(double latitude, double longitude) {
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 2));
     }
 
 }
