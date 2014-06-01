@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.boes.guideproject.core.GuideMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.maps.android.ui.IconGenerator;
 import com.parse.ParseObject;
 
 public class GuideActivity extends ActionBarActivity implements PlaceListener {
@@ -128,7 +129,7 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
     protected GuideMap provideGuideMap() {
         FragmentManager fm = getSupportFragmentManager();
         SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_fragment);
-        return new GoogleGuideMap(fragment);
+        return new GoogleGuideMap(new IconGenerator(this), fragment.getMap());
     }
 
 }

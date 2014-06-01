@@ -14,6 +14,7 @@ public class TourGuideTest {
     @Test
     public void addsMarkerOnMapWhenPlaceReceived() {
         tour.addPlace(5, "Golden Gate", 12, 34);
+        Mockito.verify(map).setPlaceMarkerStyle();
         Mockito.verify(map).addMarker("Golden Gate", 12, 34);
         Mockito.verifyNoMoreInteractions(map);
     }
@@ -21,6 +22,7 @@ public class TourGuideTest {
     @Test
     public void centersMarkerOnMapWhenFirstPlaceReceived() {
         tour.addPlace(0, "Golden Gate", 12, 34);
+        Mockito.verify(map).setGuideMarkerStyle();
         Mockito.verify(map).addMarker("Golden Gate", 12, 34);
         Mockito.verify(map).centerAt(12, 34);
     }
