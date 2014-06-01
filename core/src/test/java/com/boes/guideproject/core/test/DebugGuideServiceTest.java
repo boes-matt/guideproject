@@ -15,8 +15,9 @@ public class DebugGuideServiceTest {
 
     private final GuideListener guideListener = Mockito.mock(GuideListener.class);
     private final GuideService db = new DebugGuideService(guideListener);
+
     @Test
-    public void notifiesGuideListenerWhenGuideReceived() {
+    public void notifiesGuideListenerWithGuidePlaces() {
         db.getGuideWithId("123");
 
         // e.g. guideListener.addPlace(0, "San Francisco", 37.7833, 122.4167)

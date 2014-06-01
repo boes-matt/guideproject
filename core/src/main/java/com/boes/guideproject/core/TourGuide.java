@@ -1,17 +1,13 @@
 package com.boes.guideproject.core;
 
-public class TourGuideController implements GuideController {
+public class TourGuide implements GuideListener {
 
     GuideService db;
     GuideMap map;
 
-    public TourGuideController(GuideService db, GuideMap map) {
+    public TourGuide(GuideService db, GuideMap map) {
         this.db = db;
         this.map = map;
-    }
-
-    public void beginGuide(String id) {
-        db.getGuideWithId(id);
     }
 
     @Override

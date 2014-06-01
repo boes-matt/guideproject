@@ -1,24 +1,17 @@
 package com.boes.guideproject.core.test;
 
-import com.boes.guideproject.core.GuideController;
 import com.boes.guideproject.core.GuideMap;
 import com.boes.guideproject.core.GuideService;
-import com.boes.guideproject.core.TourGuideController;
+import com.boes.guideproject.core.TourGuide;
 
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class TourGuideControllerTest {
+public class TourGuideTest {
 
     private final GuideService db = Mockito.mock(GuideService.class);
     private final GuideMap map = Mockito.mock(GuideMap.class);
-    private final GuideController tour = new TourGuideController(db, map);
-
-    @Test
-    public void getsGuideWhenTourBegins() {
-        tour.beginGuide("123");
-        Mockito.verify(db).getGuideWithId("123");
-    }
+    private final TourGuide tour = new TourGuide(db, map);
 
     @Test
     public void addsMarkerOnMapWhenPlaceReceived() {
