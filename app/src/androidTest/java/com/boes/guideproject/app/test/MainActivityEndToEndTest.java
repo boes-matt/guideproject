@@ -22,14 +22,11 @@ public class MainActivityEndToEndTest extends ActivityInstrumentationTestCase2<M
     }
 
     public void testStartsGuideActivityOnButtonClick() {
-        // Click button
+        // Start GuideActivity
         Espresso.onView(ViewMatchers.withId(R.id.guide_button))
                 .perform(ViewActions.click());
 
-        // Check in GuideActivity now
-        Espresso.onView(ViewMatchers.withId(R.id.guide_title))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
+        // Check NOT in MainActivity now
         Espresso.onView(ViewMatchers.withId(R.id.guide_button))
                 .check(ViewAssertions.doesNotExist());
 

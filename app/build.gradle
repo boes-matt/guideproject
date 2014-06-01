@@ -35,10 +35,10 @@ dependencies {
     provided 'com.squareup.dagger:dagger-compiler:1.2.1'
 
     // Gradle port of Espresso by Jake Wharton: https://github.com/JakeWharton/double-espresso
-    androidTestCompile ('com.jakewharton.espresso:espresso:1.1-r3') {
+    androidTestCompile('com.jakewharton.espresso:espresso:1.1-r3') {
         exclude group: 'com.squareup.dagger'
     }
-    androidTestCompile ('com.jakewharton.espresso:espresso-support-v4:1.1-r3') {
+    androidTestCompile('com.jakewharton.espresso:espresso-support-v4:1.1-r3') {
         exclude group: 'com.squareup.dagger'
         exclude group: 'com.android.support', module: 'support-v4'
     }

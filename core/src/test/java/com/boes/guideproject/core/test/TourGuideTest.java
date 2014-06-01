@@ -1,7 +1,6 @@
 package com.boes.guideproject.core.test;
 
 import com.boes.guideproject.core.GuideMap;
-import com.boes.guideproject.core.GuideService;
 import com.boes.guideproject.core.TourGuide;
 
 import org.junit.Test;
@@ -9,9 +8,8 @@ import org.mockito.Mockito;
 
 public class TourGuideTest {
 
-    private final GuideService db = Mockito.mock(GuideService.class);
     private final GuideMap map = Mockito.mock(GuideMap.class);
-    private final TourGuide tour = new TourGuide(db, map);
+    private final TourGuide tour = new TourGuide(map);
 
     @Test
     public void addsMarkerOnMapWhenPlaceReceived() {

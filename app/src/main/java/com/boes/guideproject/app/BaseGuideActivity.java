@@ -1,36 +1,30 @@
 package com.boes.guideproject.app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-public class MainActivity extends ActionBarActivity {
+import com.boes.guideproject.core.GuideService;
 
-    Button guideButton;
+public abstract class BaseGuideActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        guideButton = (Button) findViewById(R.id.guide_button);
-        guideButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, DebugGuideActivity.class);
-                i.putExtra("id", "rWU3PPg2PZ");
-                startActivity(i);
-            }
-        });
+        setContentView(R.layout.activity_base_guide);
+
+        Bundle args = getIntent().getExtras();
+        String id = args.getString("id");
+
+        GuideService db = provideGuideService();
+        db.getGuideWithId(id);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.base_guide, menu);
         return true;
     }
 
@@ -45,5 +39,7 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    abstract GuideService provideGuideService();
 
 }

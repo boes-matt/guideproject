@@ -2,11 +2,9 @@ package com.boes.guideproject.core;
 
 public class TourGuide implements GuideListener {
 
-    GuideService db;
     GuideMap map;
 
-    public TourGuide(GuideService db, GuideMap map) {
-        this.db = db;
+    public TourGuide(GuideMap map) {
         this.map = map;
     }
 
