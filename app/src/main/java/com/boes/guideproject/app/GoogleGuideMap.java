@@ -3,6 +3,7 @@ package com.boes.guideproject.app;
 import android.graphics.Bitmap;
 
 import com.boes.guideproject.core.GuideMap;
+import com.boes.guideproject.core.MapListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -10,16 +11,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 
-public class GoogleGuideMap implements GuideMap {
+public class GoogleGuideMap implements
+        GuideMap,
+        GoogleMap.OnMapClickListener {
 
     private final static int DEFAULT_ZOOM = 15;
 
+    GoogleMap googleMap;
+    MapListener mapListener;
     IconGenerator iconFactory;
-    GoogleMap map;
 
-    public GoogleGuideMap(IconGenerator iconFactory, GoogleMap map) {
+    public GoogleGuideMap(GoogleMap googleMap, IconGenerator iconFactory) {
+        this.googleMap = googleMap;
+        this.googleMap.setOnMapClickListener(this);
+        this.mapListener = null;
         this.iconFactory = iconFactory;
-        this.map = map;
     }
 
     @Override
@@ -28,22 +34,27 @@ public class GoogleGuideMap implements GuideMap {
         MarkerOptions opts = new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
                 .position(new LatLng(latitude, longitude));
-        map.addMarker(opts);
+        googleMap.addMarker(opts);
     }
 
     @Override
     public void centerAt(double latitude, double longitude) {
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), DEFAULT_ZOOM));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), DEFAULT_ZOOM));
     }
 
     @Override
-    public void setGuideMarkerStyle() {
-        iconFactory.setStyle(IconGenerator.STYLE_BLUE);
+    public void setMarkerStyle(MarkerStyle style) {
+        if (style == MarkerStyle.GUIDE) iconFactory.setStyle(IconGenerator.STYLE_BLUE);
+        else iconFactory.setStyle(IconGenerator.STYLE_GREEN);
+    }
+
+    public void setMapListener(MapListener mapListener) {
+        this.mapListener = mapListener;
     }
 
     @Override
-    public void setPlaceMarkerStyle() {
-        iconFactory.setStyle(IconGenerator.STYLE_GREEN);
+    public void onMapClick(LatLng latLng) {
+        if (mapListener != null) mapListener.onMapClick();
     }
 
 }

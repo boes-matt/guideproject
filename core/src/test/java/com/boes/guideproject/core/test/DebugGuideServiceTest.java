@@ -20,8 +20,11 @@ public class DebugGuideServiceTest {
     public void notifiesGuideListenerWithGuidePlaces() {
         db.getGuideWithId("123");
 
-        // e.g. guideListener.addPlace(0, "San Francisco", 37.7833, 122.4167)
-        Mockito.verify(guideListener, Mockito.atLeastOnce()).addPlace(anyInt(), anyString(), anyDouble(), anyDouble());
+        // e.g. guideListener.setGuide("San Francisco", 37.7833, 122.4167)
+        Mockito.verify(guideListener).setGuide(anyString(), anyDouble(), anyDouble());
+
+        // e.g. guideListener.setPlace(0, "Golden Gate", 38.7833, 121.4167)
+        Mockito.verify(guideListener, Mockito.atLeastOnce()).setPlace(anyInt(), anyString(), anyDouble(), anyDouble());
     }
 
 }

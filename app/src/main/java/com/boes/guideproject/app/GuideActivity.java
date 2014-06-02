@@ -129,7 +129,7 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
     protected GuideMap provideGuideMap() {
         FragmentManager fm = getSupportFragmentManager();
         SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_fragment);
-        return new GoogleGuideMap(new IconGenerator(this), fragment.getMap());
+        return new GoogleGuideMap(fragment.getMap(), new IconGenerator(this));
     }
 
 }

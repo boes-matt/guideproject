@@ -7,5 +7,6 @@
     <string name="title_activity_guide">Guide</string>
     <string name="title_activity_main">List of Guides</string>
     <string name="title_activity_debug_guide">Debug Guide</string>
+    <string name="title_activity_test">Test Activity</string>
 
 </resources>

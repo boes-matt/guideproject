@@ -2,29 +2,53 @@ package com.boes.guideproject.core.test;
 
 import com.boes.guideproject.core.GuideMap;
 import com.boes.guideproject.core.TourGuide;
+import com.boes.guideproject.core.TourGuideFactory;
 
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static org.mockito.Matchers.anyDouble;
+
 public class TourGuideTest {
 
-    private final GuideMap map = Mockito.mock(GuideMap.class);
-    private final TourGuide tour = new TourGuide(map);
+    private final GuideMap guideMap = Mockito.mock(GuideMap.class);
+    private final TourGuide tourGuide = TourGuideFactory.build(guideMap);
 
     @Test
-    public void addsMarkerOnMapWhenPlaceReceived() {
-        tour.addPlace(5, "Golden Gate", 12, 34);
-        Mockito.verify(map).setPlaceMarkerStyle();
-        Mockito.verify(map).addMarker("Golden Gate", 12, 34);
-        Mockito.verifyNoMoreInteractions(map);
+    public void setsItselfAsMapListener() {
+        Mockito.verify(guideMap).setMapListener(tourGuide);
     }
 
     @Test
-    public void centersMarkerOnMapWhenFirstPlaceReceived() {
-        tour.addPlace(0, "Golden Gate", 12, 34);
-        Mockito.verify(map).setGuideMarkerStyle();
-        Mockito.verify(map).addMarker("Golden Gate", 12, 34);
-        Mockito.verify(map).centerAt(12, 34);
+    public void centersMarkerOnMapWhenGuideSet() {
+        tourGuide.setGuide("Golden Gate", 12, 34);
+        Mockito.verify(guideMap).setMarkerStyle(GuideMap.MarkerStyle.GUIDE);
+        Mockito.verify(guideMap).addMarker("Golden Gate", 12, 34);
+        Mockito.verify(guideMap).centerAt(12, 34);
+    }
+
+    @Test
+    public void addsMarkerOnMapWhenPlaceSet() {
+        tourGuide.setPlace(5, "Golden Gate", 12, 34);
+        Mockito.verify(guideMap).setMarkerStyle(GuideMap.MarkerStyle.PLACE);
+        Mockito.verify(guideMap).addMarker("Golden Gate", 12, 34);
+        Mockito.verify(guideMap, Mockito.never()).centerAt(anyDouble(), anyDouble());
+    }
+
+    @Test
+    public void centersMarkerOnMarkerClick() {
+        // TODO
+    }
+
+    @Test
+    public void showsGuideCardOnMarkerClick() {
+        // TODO
+    }
+
+    @Test
+    public void hidesGuideCardsOnMapClick() {
+        tourGuide.onMapClick();
+        // TODO Mockito.verify ...
     }
 
 }

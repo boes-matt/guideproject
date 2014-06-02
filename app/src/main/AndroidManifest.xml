@@ -52,6 +52,12 @@
             android:label="@string/title_activity_debug_guide" >
         </activity>
 
+        <!-- For testing purposes ONLY! -->
+        <activity
+            android:name=".TestActivity"
+            android:label="@string/title_activity_test" >
+        </activity>
+
     </application>
 
 </manifest>

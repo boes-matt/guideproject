@@ -1,23 +1,31 @@
 package com.boes.guideproject.core;
 
-public class TourGuide implements GuideListener {
+public class TourGuide implements
+        GuideListener,
+        MapListener {
 
-    GuideMap map;
+    GuideMap guideMap;
 
-    public TourGuide(GuideMap map) {
-        this.map = map;
+    public TourGuide(GuideMap guideMap) {
+        this.guideMap = guideMap;
     }
 
     @Override
-    public void addPlace(int position, String title, double latitude, double longitude) {
-        if (position == 0) {
-            map.setGuideMarkerStyle();
-            map.addMarker(title, latitude, longitude);
-            map.centerAt(latitude, longitude);
-        } else {
-            map.setPlaceMarkerStyle();
-            map.addMarker(title, latitude, longitude);
-        }
+    public void setGuide(String title, double latitude, double longitude) {
+        guideMap.setMarkerStyle(GuideMap.MarkerStyle.GUIDE);
+        guideMap.addMarker(title, latitude, longitude);
+        guideMap.centerAt(latitude, longitude);
+    }
+
+    @Override
+    public void setPlace(int position, String title, double latitude, double longitude) {
+        guideMap.setMarkerStyle(GuideMap.MarkerStyle.PLACE);
+        guideMap.addMarker(title, latitude, longitude);
+    }
+
+    @Override
+    public void onMapClick() {
+
     }
 
 }
