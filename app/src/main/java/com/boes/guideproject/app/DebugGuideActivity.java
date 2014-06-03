@@ -1,6 +1,7 @@
 package com.boes.guideproject.app;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 
 import com.boes.guideproject.core.DebugGuideService;
 import com.boes.guideproject.core.GuideCards;
@@ -24,7 +25,7 @@ public class DebugGuideActivity extends BaseGuideActivity {
         GoogleMap googleMap = fragment.getMap();
 
         GuideMap guideMap = new GoogleGuideMap(googleMap, new WeakHashMap<Marker, GuideMarker>(), new IconGenerator(this));
-        GuideCards guideCards = new GuideCardPager();
+        GuideCards guideCards = new GuideCardPager(new ViewPager(this));
 
         return new DebugGuideService(TourGuideFactory.build(guideMap, guideCards));
     }
