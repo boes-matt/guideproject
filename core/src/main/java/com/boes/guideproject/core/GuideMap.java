@@ -1,7 +1,7 @@
 package com.boes.guideproject.core;
 
 public interface GuideMap {
-    void addMarker(String title, double latitude, double longitude);
+    void addMarker(int guidePosition, String title, double latitude, double longitude);
     void centerAt(double latitude, double longitude);
 
     enum MarkerStyle {GUIDE, PLACE}

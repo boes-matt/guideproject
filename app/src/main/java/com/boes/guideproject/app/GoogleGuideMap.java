@@ -3,38 +3,46 @@ package com.boes.guideproject.app;
 import android.graphics.Bitmap;
 
 import com.boes.guideproject.core.GuideMap;
+import com.boes.guideproject.core.GuideMarker;
 import com.boes.guideproject.core.MapListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 
+import java.util.Map;
+
 public class GoogleGuideMap implements
         GuideMap,
+        GoogleMap.OnMarkerClickListener,
         GoogleMap.OnMapClickListener {
 
     private final static int DEFAULT_ZOOM = 15;
 
     GoogleMap googleMap;
     MapListener mapListener;
+    Map<Marker, GuideMarker> markerMap;
     IconGenerator iconFactory;
 
-    public GoogleGuideMap(GoogleMap googleMap, IconGenerator iconFactory) {
+    public GoogleGuideMap(GoogleMap googleMap, Map<Marker, GuideMarker> markerMap, IconGenerator iconFactory) {
         this.googleMap = googleMap;
         this.googleMap.setOnMapClickListener(this);
         this.mapListener = null;
+        this.markerMap = markerMap;
         this.iconFactory = iconFactory;
     }
 
     @Override
-    public void addMarker(String title, double latitude, double longitude) {
+    public void addMarker(int guidePosition, String title, double latitude, double longitude) {
         Bitmap bitmap = iconFactory.makeIcon(title);
         MarkerOptions opts = new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
                 .position(new LatLng(latitude, longitude));
-        googleMap.addMarker(opts);
+        Marker marker = googleMap.addMarker(opts);
+        markerMap.put(marker, new GuideMarker(guidePosition, latitude, longitude));
     }
 
     @Override
@@ -50,6 +58,21 @@ public class GoogleGuideMap implements
 
     public void setMapListener(MapListener mapListener) {
         this.mapListener = mapListener;
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (mapListener != null) {
+            GuideMarker guideMarker = markerMap.get(marker);
+            mapListener.onMarkerClick(
+                    guideMarker.getPosition(),
+                    guideMarker.getLatitude(),
+                    guideMarker.getLongitude());
+
+            return true;
+        }
+
+        return false;
     }
 
     @Override

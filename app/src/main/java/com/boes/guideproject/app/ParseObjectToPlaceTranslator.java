@@ -33,7 +33,7 @@ public class ParseObjectToPlaceTranslator implements LoaderManager.LoaderCallbac
             ParseGeoPoint geo = data.getParseGeoPoint("geo");
             double latitude = geo.getLatitude();
             double longitude = geo.getLongitude();
-            listener.process(title, latitude, longitude);
+            listener.process(0, title, latitude, longitude);
         } else {
             listener.process(new Exception(data.getString("message")));
         }

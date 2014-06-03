@@ -2,9 +2,9 @@ package com.boes.guideproject.core;
 
 public class TourGuideFactory {
 
-    public static TourGuide build(GuideMap map) {
-        TourGuide tourGuide = new TourGuide(map);
-        map.setMapListener(tourGuide);
+    public static TourGuide build(GuideMap guideMap, GuideCards guideCards) {
+        TourGuide tourGuide = new TourGuide(guideMap, guideCards);
+        guideMap.setMapListener(tourGuide);
         return tourGuide;
     }
 
