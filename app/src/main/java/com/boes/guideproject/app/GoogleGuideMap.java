@@ -13,6 +13,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class GoogleGuideMap implements
@@ -27,9 +28,10 @@ public class GoogleGuideMap implements
     Map<Marker, GuideMarker> markerMap;
     IconGenerator iconFactory;
 
-    public GoogleGuideMap(GoogleMap googleMap, Map<Marker, GuideMarker> markerMap, IconGenerator iconFactory) {
+    public GoogleGuideMap(GoogleMap googleMap, HashMap<Marker, GuideMarker> markerMap, IconGenerator iconFactory) {
         this.googleMap = googleMap;
         this.googleMap.setOnMapClickListener(this);
+        this.googleMap.setOnMarkerClickListener(this);
         this.mapListener = null;
         this.markerMap = markerMap;
         this.iconFactory = iconFactory;

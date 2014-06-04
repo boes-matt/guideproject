@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.ui.IconGenerator;
 import com.parse.ParseObject;
 
-import java.util.WeakHashMap;
+import java.util.HashMap;
 
 public class GuideActivity extends ActionBarActivity implements PlaceListener {
 
@@ -133,7 +133,7 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
     protected GuideMap provideGuideMap() {
         FragmentManager fm = getSupportFragmentManager();
         SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_fragment);
-        return new GoogleGuideMap(fragment.getMap(), new WeakHashMap<Marker, GuideMarker>(), new IconGenerator(this));
+        return new GoogleGuideMap(fragment.getMap(), new HashMap<Marker, GuideMarker>(), new IconGenerator(this));
     }
 
 }

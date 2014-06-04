@@ -16,15 +16,14 @@ import com.google.maps.android.ui.IconGenerator;
 
 import org.mockito.Mockito;
 
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.HashMap;
 
 public class GoogleGuideMapTest extends ActivityInstrumentationTestCase2<TestActivity> {
 
     Instrumentation instrumentation;
 
     private final MapListener mapListener = Mockito.mock(MapListener.class);
-    private Map<Marker, GuideMarker> markerMap;
+    private HashMap<Marker, GuideMarker> markerMap;
     private GoogleGuideMap guideMap;
 
     public GoogleGuideMapTest() {
@@ -44,7 +43,7 @@ public class GoogleGuideMapTest extends ActivityInstrumentationTestCase2<TestAct
         instrumentation.waitForIdleSync();
 
         final GoogleMap googleMap = mapFragment.getMap();
-        markerMap = new WeakHashMap<Marker, GuideMarker>();
+        markerMap = new HashMap<Marker, GuideMarker>();
         final IconGenerator iconFactory = new IconGenerator(activity);
 
         instrumentation.runOnMainSync(new Runnable() { @Override public void run() {

@@ -3,7 +3,6 @@ package com.boes.guideproject.core.test;
 import com.boes.guideproject.core.GuideCards;
 import com.boes.guideproject.core.GuideMap;
 import com.boes.guideproject.core.TourGuide;
-import com.boes.guideproject.core.TourGuideFactory;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -14,7 +13,7 @@ public class TourGuideTest {
 
     private final GuideMap guideMap = Mockito.mock(GuideMap.class);
     private final GuideCards guideCards = Mockito.mock(GuideCards.class);
-    private final TourGuide tourGuide = TourGuideFactory.build(guideMap, guideCards);
+    private final TourGuide tourGuide = TourGuide.build(guideMap, guideCards);
 
     @Test
     public void setsItselfAsMapListener() {

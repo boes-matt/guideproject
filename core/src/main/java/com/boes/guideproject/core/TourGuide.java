@@ -7,7 +7,13 @@ public class TourGuide implements
     GuideMap guideMap;
     GuideCards guideCards;
 
-    public TourGuide(GuideMap guideMap, GuideCards guideCards) {
+    public static TourGuide build(GuideMap guideMap, GuideCards guideCards) {
+        TourGuide tourGuide = new TourGuide(guideMap, guideCards);
+        guideMap.setMapListener(tourGuide);
+        return tourGuide;
+    }
+
+    private TourGuide(GuideMap guideMap, GuideCards guideCards) {
         this.guideMap = guideMap;
         this.guideCards = guideCards;
     }
@@ -18,6 +24,7 @@ public class TourGuide implements
         guideMap.addMarker(0, title, latitude, longitude);
         guideMap.centerAt(latitude, longitude);
         guideCards.setCard(0, title);
+        guideCards.showCard(0);
     }
 
     @Override
