@@ -2,7 +2,8 @@ package com.boes.guideproject.core;
 
 public class TourGuide implements
         GuideListener,
-        MapListener {
+        MapListener,
+        GuideCardsListener {
 
     GuideMap guideMap;
     GuideCards guideCards;
@@ -10,6 +11,7 @@ public class TourGuide implements
     public static TourGuide build(GuideMap guideMap, GuideCards guideCards) {
         TourGuide tourGuide = new TourGuide(guideMap, guideCards);
         guideMap.setMapListener(tourGuide);
+        guideCards.setGuideCardsListener(tourGuide);
         return tourGuide;
     }
 
@@ -43,6 +45,11 @@ public class TourGuide implements
     @Override
     public void onMapClick() {
         guideCards.hide();
+    }
+
+    @Override
+    public void onCardSelected(int guidePosition) {
+        guideMap.animateToGuidePosition(guidePosition);
     }
 
 }

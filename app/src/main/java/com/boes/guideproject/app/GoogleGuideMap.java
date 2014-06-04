@@ -63,6 +63,14 @@ public class GoogleGuideMap implements
     }
 
     @Override
+    public void animateToGuidePosition(int guidePosition) {
+        for (GuideMarker marker : markerMap.values()) {
+            if (marker.getPosition() == guidePosition)
+                animateTo(marker.getLatitude(), marker.getLongitude());
+        }
+    }
+
+    @Override
     public void setMarkerStyle(MarkerStyle style) {
         if (style == MarkerStyle.GUIDE) iconFactory.setStyle(IconGenerator.STYLE_BLUE);
         else iconFactory.setStyle(IconGenerator.STYLE_GREEN);

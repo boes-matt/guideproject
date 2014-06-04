@@ -21,6 +21,11 @@ public class TourGuideTest {
     }
 
     @Test
+    public void setsItselfAsCardListener() {
+        Mockito.verify(guideCards).setGuideCardsListener(tourGuide);
+    }
+
+    @Test
     public void centersMarkerOnMapWhenGuideSet() {
         tourGuide.setGuide("San Francisco", 12, 34);
         Mockito.verify(guideMap).setMarkerStyle(GuideMap.MarkerStyle.GUIDE);
@@ -59,6 +64,12 @@ public class TourGuideTest {
     public void hidesGuideCardsOnMapClick() {
         tourGuide.onMapClick();
         Mockito.verify(guideCards).hide();
+    }
+
+    @Test
+    public void animatesToMarkerOnCardSelect() {
+        tourGuide.onCardSelected(3);
+        Mockito.verify(guideMap).animateToGuidePosition(3);
     }
 
 }

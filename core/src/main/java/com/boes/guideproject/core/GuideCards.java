@@ -4,4 +4,5 @@ public interface GuideCards {
     void setCard(int guidePosition, String title);
     void showCard(int guidePosition);
     void hide();
+    void setGuideCardsListener(GuideCardsListener guideCardsListener);
 }
