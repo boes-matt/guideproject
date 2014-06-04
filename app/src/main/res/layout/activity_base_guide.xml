@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:id="@+id/pager"
-        android:layout_margin="20dp"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

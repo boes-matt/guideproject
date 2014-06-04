@@ -25,7 +25,7 @@ public class GuideCardFragmentAdapter extends FragmentStatePagerAdapter implemen
 
     @Override
     public Fragment getItem(int position) {
-        return CardFragment.newInstance(cards.get(position));
+        return GuideCardFragment.newInstance(cards.get(position));
     }
 
     @Override

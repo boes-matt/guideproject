@@ -7,22 +7,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class CardFragment extends Fragment {
+public class GuideCardFragment extends Fragment {
 
-    public static CardFragment newInstance(String title) {
+    public static GuideCardFragment newInstance(String title) {
         Bundle args = new Bundle();
         args.putString("title", title);
-        CardFragment fragment = new CardFragment();
+        GuideCardFragment fragment = new GuideCardFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_guide_card, container, false);
+
         String title = getArguments().getString("title");
-        TextView tvTitle = new TextView(getActivity());
+        TextView tvTitle = (TextView) v.findViewById(R.id.tvTitle);
         tvTitle.setText(title);
-        return tvTitle;
+
+        return v;
     }
 
 }
