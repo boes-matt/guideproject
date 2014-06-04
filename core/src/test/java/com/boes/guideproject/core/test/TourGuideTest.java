@@ -49,9 +49,9 @@ public class TourGuideTest {
     }
 
     @Test
-    public void centersMarkerAndShowsGuideCardOnMarkerClick() {
+    public void animatesToMarkerAndShowsGuideCardOnMarkerClick() {
         tourGuide.onMarkerClick(0, 12, 34);
-        Mockito.verify(guideMap).centerAt(12, 34);
+        Mockito.verify(guideMap).animateTo(12, 34);
         Mockito.verify(guideCards).showCard(0);
     }
 

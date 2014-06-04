@@ -8,6 +8,7 @@ import com.boes.guideproject.core.MapListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -19,11 +20,13 @@ import java.util.Map;
 public class GoogleGuideMap implements
         GuideMap,
         GoogleMap.OnMarkerClickListener,
-        GoogleMap.OnMapClickListener {
+        GoogleMap.OnMapClickListener,
+        GoogleMap.OnCameraChangeListener {
 
-    private final static int DEFAULT_ZOOM = 15;
+    private final static float DEFAULT_ZOOM = 15;
 
     GoogleMap googleMap;
+    private float zoomLevel;
     MapListener mapListener;
     Map<Marker, GuideMarker> markerMap;
     IconGenerator iconFactory;
@@ -32,6 +35,8 @@ public class GoogleGuideMap implements
         this.googleMap = googleMap;
         this.googleMap.setOnMapClickListener(this);
         this.googleMap.setOnMarkerClickListener(this);
+        this.googleMap.setOnCameraChangeListener(this);
+        this.zoomLevel = DEFAULT_ZOOM;
         this.mapListener = null;
         this.markerMap = markerMap;
         this.iconFactory = iconFactory;
@@ -49,7 +54,12 @@ public class GoogleGuideMap implements
 
     @Override
     public void centerAt(double latitude, double longitude) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), DEFAULT_ZOOM));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoomLevel));
+    }
+
+    @Override
+    public void animateTo(double latitude, double longitude) {
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), zoomLevel));
     }
 
     @Override
@@ -80,6 +90,11 @@ public class GoogleGuideMap implements
     @Override
     public void onMapClick(LatLng latLng) {
         if (mapListener != null) mapListener.onMapClick();
+    }
+
+    @Override
+    public void onCameraChange(CameraPosition cameraPosition) {
+        zoomLevel = cameraPosition.zoom;
     }
 
 }

@@ -36,7 +36,7 @@ public class TourGuide implements
 
     @Override
     public void onMarkerClick(int guidePosition, double latitude, double longitude) {
-        guideMap.centerAt(latitude, longitude);
+        guideMap.animateTo(latitude, longitude);
         guideCards.showCard(guidePosition);
     }
 
