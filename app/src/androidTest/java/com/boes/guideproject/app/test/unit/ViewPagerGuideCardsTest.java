@@ -1,4 +1,4 @@
-package com.boes.guideproject.app.test;
+package com.boes.guideproject.app.test.unit;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;

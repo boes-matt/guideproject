@@ -1,4 +1,4 @@
-package com.boes.guideproject.app.test;
+package com.boes.guideproject.app.test.unit;
 
 import android.app.Instrumentation;
 import android.support.v4.app.FragmentManager;
