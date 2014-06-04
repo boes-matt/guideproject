@@ -3,22 +3,28 @@ package com.boes.guideproject.app;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
+
+import com.boes.guideproject.core.GuideCardAdapter;
 
 import java.util.List;
 
-public class CardAdapter extends FragmentStatePagerAdapter {
+public class GuideCardFragmentAdapter extends FragmentStatePagerAdapter implements GuideCardAdapter {
 
     List<String> cards;
 
-    public CardAdapter(FragmentManager fm, List<String> cards) {
+    public GuideCardFragmentAdapter(FragmentManager fm, List<String> cards) {
         super(fm);
         this.cards = cards;
     }
 
     @Override
+    public void setCard(int guidePosition, String title) {
+        cards.add(guidePosition, title);
+        notifyDataSetChanged();
+    }
+
+    @Override
     public Fragment getItem(int position) {
-        Log.d("CardAdapter", "New card fragment: " + cards.get(position));
         return CardFragment.newInstance(cards.get(position));
     }
 

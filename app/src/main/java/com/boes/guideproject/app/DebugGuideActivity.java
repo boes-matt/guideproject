@@ -33,9 +33,9 @@ public class DebugGuideActivity extends BaseGuideActivity {
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         List<String> cards = new ArrayList<String>();
-        CardAdapter adapter = new CardAdapter(fm, cards);
+        GuideCardFragmentAdapter adapter = new GuideCardFragmentAdapter(fm, cards);
 
-        GuideCards guideCards = new GuideCardPager(pager, cards, adapter);
+        GuideCards guideCards = new ViewPagerGuideCards(pager, adapter);
 
         return new DebugGuideService(TourGuide.build(guideMap, guideCards));
     }

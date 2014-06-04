@@ -3,27 +3,23 @@ package com.boes.guideproject.app;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.boes.guideproject.core.GuideCardAdapter;
 import com.boes.guideproject.core.GuideCards;
 
-import java.util.List;
-
-public class GuideCardPager implements GuideCards {
+public class ViewPagerGuideCards implements GuideCards {
 
     ViewPager pager;
-    List<String> cards;
-    CardAdapter adapter;
+    GuideCardAdapter adapter;
 
-    public GuideCardPager(ViewPager pager, List<String> cards, CardAdapter adapter) {
+    public ViewPagerGuideCards(ViewPager pager, GuideCardFragmentAdapter adapter) {
         this.pager = pager;
-        this.cards = cards;
+        this.pager.setAdapter(adapter);
         this.adapter = adapter;
-        this.pager.setAdapter(this.adapter);
     }
 
     @Override
     public void setCard(int guidePosition, String title) {
-        cards.add(guidePosition, title);
-        adapter.notifyDataSetChanged();
+        adapter.setCard(guidePosition, title);
     }
 
     @Override
