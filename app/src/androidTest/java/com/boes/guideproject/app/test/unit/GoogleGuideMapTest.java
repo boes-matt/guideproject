@@ -6,7 +6,6 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.boes.guideproject.app.GoogleGuideMap;
 import com.boes.guideproject.app.TestActivity;
-import com.boes.guideproject.core.GuideMarker;
 import com.boes.guideproject.core.MapListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -23,7 +22,7 @@ public class GoogleGuideMapTest extends ActivityInstrumentationTestCase2<TestAct
     Instrumentation instrumentation;
 
     private final MapListener mapListener = Mockito.mock(MapListener.class);
-    private HashMap<Marker, GuideMarker> markerMap;
+    private HashMap<Integer, Marker> markerMap;
     private GoogleGuideMap guideMap;
 
     public GoogleGuideMapTest() {
@@ -43,7 +42,7 @@ public class GoogleGuideMapTest extends ActivityInstrumentationTestCase2<TestAct
         instrumentation.waitForIdleSync();
 
         final GoogleMap googleMap = mapFragment.getMap();
-        markerMap = new HashMap<Marker, GuideMarker>();
+        markerMap = new HashMap<Integer, Marker>();
         final IconGenerator iconFactory = new IconGenerator(activity);
 
         instrumentation.runOnMainSync(new Runnable() { @Override public void run() {
@@ -54,13 +53,13 @@ public class GoogleGuideMapTest extends ActivityInstrumentationTestCase2<TestAct
 
     public void testNotifiesMapListenerOnMarkerClick() {
         instrumentation.runOnMainSync(new Runnable() { @Override public void run() {
-            guideMap.addMarker(7, "Golden Gate", 12, 34);
+            guideMap.setMarker(7, "Golden Gate", 12, 34);
             assertTrue(markerMap.size() == 1);
-            Marker marker = markerMap.keySet().iterator().next();
+            Marker marker = markerMap.get(7);
             guideMap.onMarkerClick(marker);
         } });
 
-        Mockito.verify(mapListener).onMarkerClick(7, 12, 34);
+        Mockito.verify(mapListener).onMarkerClick(7);
     }
 
     public void testNotifiesMapListenerOnMapClick() {

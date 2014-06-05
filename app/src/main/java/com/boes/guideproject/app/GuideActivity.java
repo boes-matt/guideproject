@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.boes.guideproject.core.GuideMap;
-import com.boes.guideproject.core.GuideMarker;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.ui.IconGenerator;
@@ -74,8 +74,8 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
         Log.d("Listener", "Setting title view and marker on map");
         networkProgress.setVisibility(View.GONE);
         guideTitle.setText(title);
-        guideMap.addMarker(position, title, latitude, longitude);
-        guideMap.centerAt(latitude, longitude);
+        guideMap.setMarker(position, title, latitude, longitude);
+        guideMap.centerAt(position);
     }
 
     @Override
@@ -133,7 +133,12 @@ public class GuideActivity extends ActionBarActivity implements PlaceListener {
     protected GuideMap provideGuideMap() {
         FragmentManager fm = getSupportFragmentManager();
         SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_fragment);
-        return new GoogleGuideMap(fragment.getMap(), new HashMap<Marker, GuideMarker>(), new IconGenerator(this));
+
+        GoogleMap googleMap = fragment.getMap();
+        HashMap<Integer, Marker> markerMap = new HashMap<Integer, Marker>();
+        IconGenerator iconFactory = new IconGenerator(this);
+
+        return new GoogleGuideMap(googleMap, markerMap, iconFactory);
     }
 
 }

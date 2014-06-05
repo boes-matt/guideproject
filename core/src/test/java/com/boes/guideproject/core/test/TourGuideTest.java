@@ -7,7 +7,7 @@ import com.boes.guideproject.core.TourGuide;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import static org.mockito.Matchers.anyDouble;
+import static org.mockito.Matchers.anyInt;
 
 public class TourGuideTest {
 
@@ -29,16 +29,16 @@ public class TourGuideTest {
     public void centersMarkerOnMapWhenGuideSet() {
         tourGuide.setGuide("San Francisco", 12, 34);
         Mockito.verify(guideMap).setMarkerStyle(GuideMap.MarkerStyle.GUIDE);
-        Mockito.verify(guideMap).addMarker(0, "San Francisco", 12, 34);
-        Mockito.verify(guideMap).centerAt(12, 34);
+        Mockito.verify(guideMap).setMarker(0, "San Francisco", 12, 34);
+        Mockito.verify(guideMap).centerAt(0);
     }
 
     @Test
     public void addsMarkerOnMapWhenPlaceSet() {
         tourGuide.setPlace(5, "Golden Gate", 12, 34);
         Mockito.verify(guideMap).setMarkerStyle(GuideMap.MarkerStyle.PLACE);
-        Mockito.verify(guideMap).addMarker(5, "Golden Gate", 12, 34);
-        Mockito.verify(guideMap, Mockito.never()).centerAt(anyDouble(), anyDouble());
+        Mockito.verify(guideMap).setMarker(5, "Golden Gate", 12, 34);
+        Mockito.verify(guideMap, Mockito.never()).centerAt(anyInt());
     }
 
     @Test
@@ -55,8 +55,8 @@ public class TourGuideTest {
 
     @Test
     public void animatesToMarkerAndShowsGuideCardOnMarkerClick() {
-        tourGuide.onMarkerClick(0, 12, 34);
-        Mockito.verify(guideMap).animateTo(12, 34);
+        tourGuide.onMarkerClick(0);
+        Mockito.verify(guideMap).animateTo(0);
         Mockito.verify(guideCards).showCard(0);
     }
 
@@ -69,7 +69,7 @@ public class TourGuideTest {
     @Test
     public void animatesToMarkerOnCardSelect() {
         tourGuide.onCardSelected(3);
-        Mockito.verify(guideMap).animateToGuidePosition(3);
+        Mockito.verify(guideMap).animateTo(3);
     }
 
 }

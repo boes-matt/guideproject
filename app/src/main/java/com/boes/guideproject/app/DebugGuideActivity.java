@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import com.boes.guideproject.core.DebugGuideService;
 import com.boes.guideproject.core.GuideCards;
 import com.boes.guideproject.core.GuideMap;
-import com.boes.guideproject.core.GuideMarker;
 import com.boes.guideproject.core.GuideService;
 import com.boes.guideproject.core.TourGuide;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,10 +22,10 @@ public class DebugGuideActivity extends BaseGuideActivity {
     @Override
     GuideService provideGuideService() {
         FragmentManager fm = getSupportFragmentManager();
-
         SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_fragment);
+
         GoogleMap googleMap = fragment.getMap();
-        HashMap<Marker, GuideMarker> markerMap = new HashMap<Marker, GuideMarker>();
+        HashMap<Integer, Marker> markerMap = new HashMap<Integer, Marker>();
         IconGenerator iconFactory = new IconGenerator(this);
 
         GuideMap guideMap = new GoogleGuideMap(googleMap, markerMap, iconFactory);
