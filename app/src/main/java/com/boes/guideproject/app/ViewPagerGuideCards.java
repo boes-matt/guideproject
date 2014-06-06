@@ -1,6 +1,5 @@
 package com.boes.guideproject.app;
 
-import android.content.res.Resources;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -22,8 +21,6 @@ public class ViewPagerGuideCards implements
         this.pager.setAdapter(adapter);
         this.adapter = adapter;
         this.guideCardsListener = null;
-
-        this.pager.setPageMargin(getPxForDimen(R.dimen.pager_page_margin));
     }
 
     @Override
@@ -60,11 +57,6 @@ public class ViewPagerGuideCards implements
     @Override
     public void onPageScrollStateChanged(int state) {
 
-    }
-
-    private int getPxForDimen(int id) {
-        Resources res = pager.getResources();
-        return res.getDimensionPixelSize(id);
     }
 
 }

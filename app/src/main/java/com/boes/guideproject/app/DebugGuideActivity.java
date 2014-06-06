@@ -1,5 +1,6 @@
 package com.boes.guideproject.app;
 
+import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 
@@ -31,12 +32,18 @@ public class DebugGuideActivity extends BaseGuideActivity {
         GuideMap guideMap = new GoogleGuideMap(googleMap, markerMap, iconFactory);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager.setPageMargin(getPxForDimen(R.dimen.pager_page_margin));
         List<String> cards = new ArrayList<String>();
         GuideCardFragmentAdapter adapter = new GuideCardFragmentAdapter(fm, cards);
 
         GuideCards guideCards = new ViewPagerGuideCards(pager, adapter);
 
         return new DebugGuideService(TourGuide.build(guideMap, guideCards));
+    }
+
+    private int getPxForDimen(int id) {
+        Resources res = getResources();
+        return res.getDimensionPixelSize(id);
     }
 
 }
