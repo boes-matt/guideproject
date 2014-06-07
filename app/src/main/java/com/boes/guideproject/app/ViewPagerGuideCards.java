@@ -40,6 +40,11 @@ public class ViewPagerGuideCards implements
     }
 
     @Override
+    public int getHeight() {
+        return pager.getHeight();
+    }
+
+    @Override
     public void setGuideCardsListener(GuideCardsListener guideCardsListener) {
         this.guideCardsListener = guideCardsListener;
     }

@@ -42,9 +42,14 @@ public class TourGuideTest {
     }
 
     @Test
-    public void setsGuideCardWhenGuideSet() {
+    public void showsGuideCardWhenGuideSet() {
+        Mockito.when(guideCards.getHeight()).thenReturn(200);
+
         tourGuide.setGuide("San Francisco", 12, 34);
+
         Mockito.verify(guideCards).setCard(0, "San Francisco");
+        Mockito.verify(guideCards).showCard(0);
+        Mockito.verify(guideMap).setPadding(0, 0, 0, 200);
     }
 
     @Test
@@ -55,14 +60,19 @@ public class TourGuideTest {
 
     @Test
     public void animatesToMarkerAndShowsGuideCardOnMarkerClick() {
+        Mockito.when(guideCards.getHeight()).thenReturn(200);
+
         tourGuide.onMarkerClick(0);
-        Mockito.verify(guideMap).animateTo(0);
+
         Mockito.verify(guideCards).showCard(0);
+        Mockito.verify(guideMap).setPadding(0, 0, 0, 200);
+        Mockito.verify(guideMap).animateTo(0);
     }
 
     @Test
     public void hidesGuideCardsOnMapClick() {
         tourGuide.onMapClick();
+        Mockito.verify(guideMap).setPadding(0, 0, 0, 0);
         Mockito.verify(guideCards).hide();
     }
 

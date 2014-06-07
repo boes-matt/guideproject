@@ -1,6 +1,7 @@
 package com.boes.guideproject.app;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.boes.guideproject.core.GuideMap;
 import com.boes.guideproject.core.MapListener;
@@ -69,6 +70,12 @@ public class GoogleGuideMap implements
     public void setMarkerStyle(MarkerStyle style) {
         if (style == GuideMap.MarkerStyle.GUIDE) iconFactory.setStyle(IconGenerator.STYLE_BLUE);
         else iconFactory.setStyle(IconGenerator.STYLE_GREEN);
+    }
+
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        Log.d("GoogleMap", "Bottom padding: " + bottom);
+        googleMap.setPadding(left, top, right, bottom);
     }
 
     public void setMapListener(MapListener mapListener) {
