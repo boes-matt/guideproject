@@ -12,11 +12,11 @@ The data for the app is mocked, and there is only one guide in the mocked data s
 
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/map.png" height="300" />
+<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/map.png" height="400" />
 &nbsp;&nbsp;
-<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/stanford.png" height="300" />
+<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/stanford.png" height="400" />
 &nbsp;&nbsp;
-<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/hoover.png" height="300" />
+<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/hoover.png" height="400" />
 
 ## Packages
 
