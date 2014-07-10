@@ -34,4 +34,4 @@ Integration testing of business logic.
 
 ## Outline of dependency graph
 
-<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/graph.png" />
+<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/graph.jpg" />
