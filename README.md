@@ -21,7 +21,7 @@ The data for the app is mocked, and there is only one guide in the mocked data s
 ## Packages
 
 [com.boes.guideproject.app](https://github.com/boes-matt/guideproject/tree/master/app/src/main/java/com/boes/guideproject/app):
-Activities and Android implementations of interfaces defined in core package.
+Thin activities and Android implementations of interfaces defined in core package.
 
 [com.boes.guideproject.app.test](https://github.com/boes-matt/guideproject/tree/master/app/src/androidTest/java/com/boes/guideproject/app/test):
 Espresso acceptance tests and unit tests with Mockito.
@@ -33,3 +33,5 @@ Business logic.  TourGuide is main controller.
 Integration testing of business logic.
 
 ## Outline of dependency graph
+
+<img src="https://raw.githubusercontent.com/boes-matt/guideproject/master/app/screenshots/graph.png" />
