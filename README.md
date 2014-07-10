@@ -1,6 +1,6 @@
 # Guide Project
 
-Guide Project is an experiment in building a better Android app.
+Guide Project is my experiment in building a better Android app.
 
 I use interfaces, a dependency injection pattern, and follow a test-driven development approach.
 
