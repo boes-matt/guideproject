@@ -12,14 +12,20 @@ The data for the app is mocked, and there is only one guide in the mocked data s
 
 ## Screenshots
 
+<img src="https://github.com/boes-matt/guideproject/blob/master/app/screenshots/map.png" height="300" />
+&nbsp;&nbsp;
+<img src="https://github.com/boes-matt/guideproject/blob/master/app/screenshots/stanford.png" height="300" />
+&nbsp;&nbsp;
+<img src="https://github.com/boes-matt/guideproject/blob/master/app/screenshots/hoover.png" height="300" />
+
 ## Packages
 
-com.boes.guideproject.app
+[com.boes.guideproject.app](https://github.com/boes-matt/guideproject/tree/master/app/src/main/java/com/boes/guideproject/app)<br/>
 
-com.boes.guideproject.app.test
+[com.boes.guideproject.app.test](https://github.com/boes-matt/guideproject/tree/master/app/src/androidTest/java/com/boes/guideproject/app/test)<br/>
 
-com.boes.guideproject.core
+[com.boes.guideproject.core](https://github.com/boes-matt/guideproject/tree/master/core/src/main/java/com/boes/guideproject/core)<br/>
 
-com.boes.guideproject.core.test
+[com.boes.guideproject.core.test](https://github.com/boes-matt/guideproject/tree/master/core/src/test/java/com/boes/guideproject/core/test)<br/>
 
 ## Outline of dependency graph
