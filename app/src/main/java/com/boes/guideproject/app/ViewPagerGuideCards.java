@@ -36,7 +36,7 @@ public class ViewPagerGuideCards implements
 
     @Override
     public void hide() {
-        pager.setVisibility(View.GONE);
+        pager.setVisibility(View.INVISIBLE);
     }
 
     @Override

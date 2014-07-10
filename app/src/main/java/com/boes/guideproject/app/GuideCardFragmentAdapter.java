@@ -11,6 +11,10 @@ import java.util.List;
 public class GuideCardFragmentAdapter extends FragmentStatePagerAdapter implements GuideCardAdapter {
 
     List<String> cards;
+    int[] images = {R.drawable.stanford,
+                    R.drawable.hoover,
+                    R.drawable.dschool,
+                    R.drawable.rodin};
 
     public GuideCardFragmentAdapter(FragmentManager fm, List<String> cards) {
         super(fm);
@@ -25,7 +29,7 @@ public class GuideCardFragmentAdapter extends FragmentStatePagerAdapter implemen
 
     @Override
     public Fragment getItem(int position) {
-        return GuideCardFragment.newInstance(cards.get(position));
+        return GuideCardImage.newInstance(images[position]);
     }
 
     @Override

@@ -22,23 +22,30 @@ public class DebugGuideActivity extends BaseGuideActivity {
 
     @Override
     GuideService provideGuideService() {
+        return new DebugGuideService(TourGuide.build(getGuideMap(), getGuideCards()));
+    }
+
+    private GuideCards getGuideCards() {
         FragmentManager fm = getSupportFragmentManager();
-        SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_fragment);
-
-        GoogleMap googleMap = fragment.getMap();
-        HashMap<Integer, Marker> markerMap = new HashMap<Integer, Marker>();
-        IconGenerator iconFactory = new IconGenerator(this);
-
-        GuideMap guideMap = new GoogleGuideMap(googleMap, markerMap, iconFactory);
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setPageMargin(getPxForDimen(R.dimen.pager_page_margin));
         List<String> cards = new ArrayList<String>();
+
         GuideCardFragmentAdapter adapter = new GuideCardFragmentAdapter(fm, cards);
 
-        GuideCards guideCards = new ViewPagerGuideCards(pager, adapter);
+        return new ViewPagerGuideCards(pager, adapter);
+    }
 
-        return new DebugGuideService(TourGuide.build(guideMap, guideCards));
+    private GuideMap getGuideMap() {
+        final FragmentManager fm = getSupportFragmentManager();
+        final SupportMapFragment fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_fragment);
+
+        final GoogleMap googleMap = fragment.getMap();
+        HashMap<Integer, Marker> markerMap = new HashMap<Integer, Marker>();
+        IconGenerator iconFactory = new IconGenerator(this);
+
+        return new GoogleGuideMap(googleMap, markerMap, iconFactory);
     }
 
     private int getPxForDimen(int id) {

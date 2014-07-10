@@ -24,12 +24,9 @@ public class TourGuide implements
     public void setGuide(String title, double latitude, double longitude) {
         guideMap.setMarkerStyle(GuideMap.MarkerStyle.GUIDE);
         guideMap.setMarker(0, title, latitude, longitude);
+        guideMap.centerAt(0);
 
         guideCards.setCard(0, title);
-        guideCards.showCard(0);
-
-        guideMap.setPadding(0, 0, 0, guideCards.getHeight());
-        guideMap.centerAt(0);
     }
 
     @Override
@@ -49,8 +46,8 @@ public class TourGuide implements
 
     @Override
     public void onMapClick() {
-        guideMap.setPadding(0, 0, 0, 0);
         guideCards.hide();
+        guideMap.setPadding(0, 0, 0, 0);
     }
 
     @Override

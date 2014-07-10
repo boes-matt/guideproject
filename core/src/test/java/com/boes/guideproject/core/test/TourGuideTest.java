@@ -42,17 +42,6 @@ public class TourGuideTest {
     }
 
     @Test
-    public void showsGuideCardWhenGuideSet() {
-        Mockito.when(guideCards.getHeight()).thenReturn(200);
-
-        tourGuide.setGuide("San Francisco", 12, 34);
-
-        Mockito.verify(guideCards).setCard(0, "San Francisco");
-        Mockito.verify(guideCards).showCard(0);
-        Mockito.verify(guideMap).setPadding(0, 0, 0, 200);
-    }
-
-    @Test
     public void setsGuideCardWhenPlaceSet() {
         tourGuide.setPlace(5, "Golden Gate", 12, 34);
         Mockito.verify(guideCards).setCard(5, "Golden Gate");

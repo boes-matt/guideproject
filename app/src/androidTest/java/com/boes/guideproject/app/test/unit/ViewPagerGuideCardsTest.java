@@ -38,7 +38,7 @@ public class ViewPagerGuideCardsTest extends TestCase {
 
     public void testHidesGuideCards() {
         guideCards.hide();
-        Mockito.verify(pager).setVisibility(View.GONE);
+        Mockito.verify(pager).setVisibility(View.INVISIBLE);
     }
 
     public void testNotifiesGuideCardsListenerOnCardSelected() {
